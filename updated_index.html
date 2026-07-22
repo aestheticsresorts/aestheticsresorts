@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Book Your Stay</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0E2B2E;
+    --ivory:#F6EFE0;
+    --gold:#C9A24B;
+    --palm:#3B5D50;
+    --charcoal:#22201B;
+    --line: rgba(14,43,46,0.14);
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--ivory);
+    color:var(--charcoal);
+    font-family:'Inter',sans-serif;
+  }
+  h1,h2{
+    font-family:'Fraunces',serif;
+    margin:0;
+    color:var(--navy);
+  }
+  .hero{
+    padding:72px 24px 56px;
+    text-align:center;
+    background:
+      radial-gradient(circle at 20% 0%, rgba(201,162,75,0.15), transparent 45%),
+      var(--navy);
+    color:var(--ivory);
+  }
+  .hero .eyebrow{
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    font-size:12px;
+    color:var(--gold);
+    margin-bottom:14px;
+  }
+  .hero h1{
+    color:var(--ivory);
+    font-size:clamp(32px,6vw,52px);
+    font-weight:600;
+    line-height:1.1;
+  }
+  .hero p{
+    max-width:520px;
+    margin:16px auto 28px;
+    color:rgba(246,239,224,0.78);
+    font-size:16px;
+  }
+  .cta{
+    display:inline-block;
+    background:var(--gold);
+    color:var(--navy);
+    font-weight:600;
+    text-decoration:none;
+    padding:14px 30px;
+    border-radius:2px;
+    letter-spacing:.02em;
+  }
+  .tide{
+    height:28px;
+    width:100%;
+    display:block;
+  }
+  section{
+    max-width:760px;
+    margin:0 auto;
+    padding:56px 24px;
+  }
+  .avail-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    margin-bottom:20px;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  .avail-head h2{ font-size:26px; }
+  .avail-head span{ font-size:13px; color:var(--palm); }
+  .legend{
+    display:flex; gap:18px; margin-bottom:18px; font-size:12px; color:var(--charcoal);
+  }
+  .legend .dot{ display:inline-block; width:10px; height:10px; border-radius:50%; margin-right:6px; vertical-align:middle; }
+  .dot.open{ background:var(--palm); }
+  .dot.taken{ background:var(--line); border:1px solid var(--navy); }
+  #calendar{
+    display:grid;
+    grid-template-columns:repeat(7,1fr);
+    gap:6px;
+  }
+  .day{
+    aspect-ratio:1;
+    border-radius:3px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:12px;
+    background:rgba(59,93,80,0.12);
+    color:var(--palm);
+    border:1px solid transparent;
+  }
+  .day.taken{
+    background:transparent;
+    border:1px solid var(--line);
+    color:rgba(34,32,26,0.35);
+    text-decoration:line-through;
+  }
+  .day.label{
+    background:none;
+    color:rgba(34,32,26,0.5);
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:.06em;
+  }
+  .divider{
+    border:none;
+    border-top:1px solid var(--line);
+    margin:0;
+  }
+  .calc h2{ font-size:26px; margin-bottom:8px; }
+  .calc p{ color:rgba(34,32,26,0.7); margin-bottom:24px; font-size:15px; }
+  .calc-box{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:28px;
+  }
+  .calc-inputs{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:16px;
+    margin-bottom:24px;
+  }
+  .calc-field label{
+    display:block;
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:.06em;
+    color:var(--palm);
+    margin-bottom:6px;
+  }
+  .calc-field input{
+    width:100%;
+    padding:10px 12px;
+    border:1px solid var(--line);
+    border-radius:4px;
+    font-family:'Inter',sans-serif;
+    font-size:14px;
+    color:var(--charcoal);
+    background:var(--ivory);
+  }
+  .calc-result{
+    border-top:1px solid var(--line);
+    padding-top:20px;
+  }
+  .calc-row{
+    display:flex;
+    justify-content:space-between;
+    font-size:14px;
+    color:rgba(34,32,26,0.7);
+    margin-bottom:8px;
+  }
+  .calc-total{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    margin-top:12px;
+  }
+  .calc-total .label{
+    font-family:'Fraunces',serif;
+    font-size:18px;
+    color:var(--navy);
+  }
+  .calc-total .amount{
+    font-family:'Fraunces',serif;
+    font-size:32px;
+    font-weight:600;
+    color:var(--navy);
+  }
+  .calc-note{
+    font-size:12px;
+    color:rgba(34,32,26,0.5);
+    margin-top:14px;
+  }
+  .book h2{ font-size:26px; margin-bottom:8px; }
+  .book p{ color:rgba(34,32,26,0.7); margin-bottom:24px; font-size:15px; }
+  iframe{
+    width:100%;
+    height:900px;
+    border:1px solid var(--line);
+    border-radius:4px;
+  }
+  footer{
+    text-align:center;
+    padding:32px 24px 48px;
+    font-size:12px;
+    color:rgba(34,32,26,0.5);
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="eyebrow">Direct Booking · No Fees</div>
+  <h1>Your Stay, Booked Directly</h1>
+  <p>Real-time availability, no third-party markup — reserve straight with us.</p>
+  <a class="cta" href="#book">Check Dates &amp; Book</a>
+</div>
+<svg class="tide" viewBox="0 0 400 20" preserveAspectRatio="none">
+  <path d="M0,10 Q25,0 50,10 T100,10 T150,10 T200,10 T250,10 T300,10 T350,10 T400,10 V20 H0 Z" fill="#F6EFE0"/>
+</svg>
+
+<section>
+  <div class="avail-head">
+    <h2>Availability — next 28 days</h2>
+    <span id="status-text">Loading live availability…</span>
+  </div>
+  <div class="legend">
+    <span><span class="dot open"></span>Open</span>
+    <span><span class="dot taken"></span>Booked</span>
+  </div>
+  <div id="calendar"></div>
+</section>
+
+<hr class="divider">
+
+<section class="calc">
+  <h2>Estimate Your Stay</h2>
+  <p>Pick your dates to see the total cost — you'll get this same breakdown by email once you book.</p>
+  <div class="calc-box">
+    <div class="calc-inputs">
+      <div class="calc-field">
+        <label for="calc-checkin">Check-in</label>
+        <input type="date" id="calc-checkin">
+      </div>
+      <div class="calc-field">
+        <label for="calc-checkout">Check-out</label>
+        <input type="date" id="calc-checkout">
+      </div>
+    </div>
+    <div class="calc-result">
+      <div class="calc-row"><span id="calc-nights-label">Nights</span><span id="calc-nights">–</span></div>
+      <div class="calc-row"><span>Rate</span><span id="calc-rate">–</span></div>
+      <div class="calc-total">
+        <span class="label">Total</span>
+        <span class="amount" id="calc-total">–</span>
+      </div>
+    </div>
+    <p class="calc-note">Estimate only — final total is confirmed by email after booking.</p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section class="book" id="book">
+  <h2>Book Your Stay</h2>
+  <p>Submit your dates below. You'll get an instant email — confirmed if the dates are open, or waitlisted if they're taken, with a note to suggest alternatives.</p>
+  <!-- Replace SRC below with your own Google Form's embed link:
+       open your Form -> Send -> the "<>" embed icon -> copy the src URL -->
+  <iframe src="PASTE_YOUR_GOOGLE_FORM_EMBED_URL_HERE" frameborder="0">Loading…</iframe>
+</section>
+
+<footer>Booked directly — no Airbnb or Booking.com commission.</footer>
+
+<script>
+  // Paste the Web App URL from your Apps Script deployment (see SETUP_GUIDE.md step 4)
+  const API_URL = "PASTE_YOUR_WEB_APP_URL_HERE";
+
+  const cal = document.getElementById('calendar');
+  const statusText = document.getElementById('status-text');
+  const DAYS_TO_SHOW = 28;
+
+  function dateStr(d){ return d.toISOString().slice(0,10); }
+
+  function render(bookedRanges){
+    cal.innerHTML = '';
+    ['S','M','T','W','T','F','S'].forEach(l=>{
+      const el = document.createElement('div');
+      el.className = 'day label';
+      el.textContent = l;
+      cal.appendChild(el);
+    });
+
+    const today = new Date();
+    today.setHours(0,0,0,0);
+    const lead = today.getDay();
+    for(let i=0;i<lead;i++){
+      const blank = document.createElement('div');
+      cal.appendChild(blank);
+    }
+
+    for(let i=0;i<DAYS_TO_SHOW;i++){
+      const d = new Date(today);
+      d.setDate(d.getDate()+i);
+      const ds = dateStr(d);
+      const isTaken = bookedRanges.some(r => ds >= r.checkIn && ds < r.checkOut);
+      const el = document.createElement('div');
+      el.className = 'day' + (isTaken ? ' taken' : '');
+      el.textContent = d.getDate();
+      cal.appendChild(el);
+    }
+  }
+
+  fetch(API_URL)
+    .then(r => r.json())
+    .then(data => {
+      render(data.booked || []);
+      statusText.textContent = 'Updated ' + new Date().toLocaleDateString();
+    })
+    .catch(() => {
+      statusText.textContent = 'Live availability unavailable right now — book below and we\'ll confirm by email.';
+      render([]);
+    });
+
+  // Price calculator — keep PRICE_PER_NIGHT and CURRENCY in sync with
+  // Code.gs (PRICE_PER_NIGHT / CURRENCY_LABEL) so the estimate matches
+  // the email guests actually receive.
+  const PRICE_PER_NIGHT = 13000;
+  const CURRENCY = 'INR';
+
+  const checkinInput = document.getElementById('calc-checkin');
+  const checkoutInput = document.getElementById('calc-checkout');
+  const nightsLabel = document.getElementById('calc-nights-label');
+  const nightsOut = document.getElementById('calc-nights');
+  const rateOut = document.getElementById('calc-rate');
+  const totalOut = document.getElementById('calc-total');
+
+  rateOut.textContent = PRICE_PER_NIGHT.toLocaleString() + ' ' + CURRENCY + ' / night';
+
+  function updateCalc(){
+    const inDate = checkinInput.value;
+    const outDate = checkoutInput.value;
+    if(!inDate || !outDate){
+      nightsOut.textContent = '–';
+      totalOut.textContent = '–';
+      return;
+    }
+    const nights = Math.round((new Date(outDate) - new Date(inDate)) / 86400000);
+    if(nights <= 0){
+      nightsLabel.textContent = 'Nights';
+      nightsOut.textContent = 'Check-out must be after check-in';
+      totalOut.textContent = '–';
+      return;
+    }
+    nightsLabel.textContent = 'Nights';
+    nightsOut.textContent = nights;
+    totalOut.textContent = (nights * PRICE_PER_NIGHT).toLocaleString() + ' ' + CURRENCY;
+  }
+
+  checkinInput.addEventListener('change', updateCalc);
+  checkoutInput.addEventListener('change', updateCalc);
+</script>
+
+</body>
+</html>
