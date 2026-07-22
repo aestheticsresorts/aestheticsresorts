@@ -209,8 +209,8 @@
 
 <div class="hero">
   <div class="eyebrow">Direct Booking · No Fees</div>
-  <img src="Cover.jpg" alt="Aesthetics Resort" style="width: 100%; max-width: 500px; height: auto;">
-  <h1>Your Stay, Booked Directly</h1>
+  <img src="Cover.jpg" alt="Aesthetics Resort" style="width: 100%; max-width: 500px; height: auto; margin-bottom: 20px;">
+  <h1>Aesthetics Resort</h1>
   <p>Aesthetics Resort sits quietly in the mountains of Harwan, away from the noise of everyday life.
 Real-time availability, no third-party markup — reserve straight with us.</p>
   <a class="cta" href="#book">Check Dates &amp; Book</a>
@@ -266,7 +266,7 @@ Real-time availability, no third-party markup — reserve straight with us.</p>
   <p>Submit your dates below. You'll get an instant email — confirmed if the dates are open, or waitlisted if they're taken, with a note to suggest alternatives.</p>
   <!-- Replace SRC below with your own Google Form's embed link:
        open your Form -> Send -> the "<>" embed icon -> copy the src URL -->
-  <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSc675GbeZsczr_swgZ_sMXDpsCG2hgzCeZqoQDtjQf6i2WdiA/viewform?usp=dialog" frameborder="0">Loading…</iframe>
+  <iframe src="PASTE_YOUR_GOOGLE_FORM_EMBED_URL_HERE" frameborder="0">Loading…</iframe>
 </section>
 
 <footer>Booked directly — no Airbnb or Booking.com commission.</footer>
@@ -279,7 +279,12 @@ Real-time availability, no third-party markup — reserve straight with us.</p>
   const statusText = document.getElementById('status-text');
   const DAYS_TO_SHOW = 28;
 
-  function dateStr(d){ return d.toISOString().slice(0,10); }
+  function dateStr(d){
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${y}-${m}-${day}`;
+  }
 
   function render(bookedRanges){
     cal.innerHTML = '';
